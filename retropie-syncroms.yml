@@ -1,0 +1,10 @@
+- name: Setup Retropie
+  hosts: pi
+  remote_user: pi
+  become: True
+  tasks:
+  - name: sync roms
+    synchronize: src=files/pi/ dest=/home/pi/
+
+#  - name: sync gamelists
+#    synchronize: src=files/emulationstation/gamelists dest=/opt/retropie/configs/all/emulationstation/
