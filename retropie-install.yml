@@ -28,50 +28,30 @@
           - ./retropie_packages.sh runcommand depends
           - ./retropie_packages.sh runcommand install
 
-    - name: Install and configure retroarch
-      command: "{{item}} chdir=/home/pi/RetroPie-Setup"
+    - name: Install and configure retroarch and some cores
+      shell: >
+          ./retropie_packages.sh {{item}} depends;
+          ./retropie_packages.sh {{item}} install_bin;
+          ./retropie_packages.sh {{item}} configure
+      args:
+          chdir: "/home/pi/RetroPie-Setup"
       with_items:
-          - ./retropie_packages.sh retroarch depends
-          - ./retropie_packages.sh retroarch install_bin
-          - ./retropie_packages.sh retroarch configure
+          - retroarch
+          - lr-fceumm
+          - lr-pocketsnes
+          - lr-picodrive
+          - lr-mupen64plus
+          - lr-pcsx-rearmed
 
-    - name: Install and configure lr-fceumm
-      command: "{{item}} chdir=/home/pi/RetroPie-Setup"
+    - name: Setup splash screen
+      shell: >
+          ./retropie_packages.sh {{item}} depends;
+          ./retropie_packages.sh {{item}} install_bin;
+          ./retropie_packages.sh {{item}} download_extra;
+          echo "/home/pi/RetroPie/splashscreens/retropie-extra/snes-controller.jpg" > /etc/splashscreen.list;
+          ./retropie_packages.sh {{item}} enable;
       with_items:
-          - ./retropie_packages.sh lr-fceumm depends
-          - ./retropie_packages.sh lr-fceumm install_bin
-          - ./retropie_packages.sh lr-fceumm configure
-
-    - name: Install and configure lr-pocketsnes
-      command: "{{item}} chdir=/home/pi/RetroPie-Setup"
-      with_items:
-          - ./retropie_packages.sh lr-pocketsnes depends
-          - ./retropie_packages.sh lr-pocketsnes install_bin
-          - ./retropie_packages.sh lr-pocketsnes configure
-
-    - name: Install and configure lr-picodrive
-      command: "{{item}} chdir=/home/pi/RetroPie-Setup"
-      with_items:
-          - ./retropie_packages.sh lr-picodrive depends
-          - ./retropie_packages.sh lr-picodrive install_bin
-          - ./retropie_packages.sh lr-picodrive configure
-
-    - name: Install and configure lr-mupen64plus
-      command: "{{item}} chdir=/home/pi/RetroPie-Setup"
-      with_items:
-          - ./retropie_packages.sh lr-mupen64plus depends
-          - ./retropie_packages.sh lr-mupen64plus install_bin
-          - ./retropie_packages.sh lr-mupen64plus configure
-
-    - name: Install and configure lr-pcsx-rearmed
-      command: "{{item}} chdir=/home/pi/RetroPie-Setup"
-      with_items:
-          - ./retropie_packages.sh lr-pcsx-rearmed depends
-          - ./retropie_packages.sh lr-pcsx-rearmed install_bin
-          - ./retropie_packages.sh lr-pcsx-rearmed configure
-
-##    - name: Setup splash screen
-#      command: "./retropie_packages.sh splashscreen chdir=/home/pi/RetroPie-Setup"
+          - splashscreen
 
     - name: copy gamepad config
       copy: src=files/LogitechGamepadF310.cfg dest=/opt/retropie/configs/all/retroarch-joypads
