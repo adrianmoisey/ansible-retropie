@@ -48,8 +48,10 @@
           ./retropie_packages.sh {{item}} depends;
           ./retropie_packages.sh {{item}} install_bin;
           ./retropie_packages.sh {{item}} download_extra;
-          echo "/home/pi/RetroPie/splashscreens/retropie-extra/snes-controller.jpg" > /etc/splashscreen.list;
+          echo "/home/pi/RetroPie/splashscreens/retropie-extra/dalecoop-snes-controller" > /etc/splashscreen.list;
           ./retropie_packages.sh {{item}} enable;
+      args:
+          chdir: "/home/pi/RetroPie-Setup"
       with_items:
           - splashscreen
 
@@ -57,4 +59,7 @@
       copy: src=files/LogitechGamepadF310.cfg dest=/opt/retropie/configs/all/retroarch-joypads
 
     - name: copy gamepad config for emulationstation
-      copy: src=files/emulationstation/es_input.cfg dest=/opt/retropie/configs/all/emulationstation
+      copy: src=files/emulationstation/{{ item }} dest=/opt/retropie/configs/all/emulationstation/
+      with_items:
+        - es_settings.cfg
+        - es_input.cfg
