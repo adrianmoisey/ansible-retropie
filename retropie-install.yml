@@ -38,7 +38,7 @@
       with_items:
           - retroarch
           - lr-fceumm
-          - lr-pocketsnes
+          - lr-snes9x2002
           - lr-picodrive
           - lr-mupen64plus
           - lr-pcsx-rearmed
@@ -48,7 +48,7 @@
           ./retropie_packages.sh {{item}} depends;
           ./retropie_packages.sh {{item}} install_bin;
           ./retropie_packages.sh {{item}} download_extra;
-          echo "/home/pi/RetroPie/splashscreens/retropie-extra/dalecoop-snes-controller" > /etc/splashscreen.list;
+          echo "/home/pi/RetroPie/splashscreens/retropie-extra/dalecoop-snes-controller.jpg" > /etc/splashscreen.list;
           ./retropie_packages.sh {{item}} enable;
       args:
           chdir: "/home/pi/RetroPie-Setup"
@@ -56,7 +56,10 @@
           - splashscreen
 
     - name: copy gamepad config
-      copy: src=files/LogitechGamepadF310.cfg dest=/opt/retropie/configs/all/retroarch-joypads
+      copy: src=files/{{ item }} dest=/opt/retropie/configs/all/retroarch-joypads
+      with_items:
+          - 8BitPro.cfg
+          - LogitechGamepadF310.cfg
 
     - name: copy gamepad config for emulationstation
       copy: src=files/emulationstation/{{ item }} dest=/opt/retropie/configs/all/emulationstation/
