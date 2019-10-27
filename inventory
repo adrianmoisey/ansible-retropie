@@ -1,2 +1,2 @@
 [pi]
-pi ansible_ssh_host=192.168.1.104 ansible_ssh_user=pi aisible_sudo=yes
+pi ansible_ssh_host=192.168.1.104 ansible_ssh_user=pi ansible_sudo=yes
